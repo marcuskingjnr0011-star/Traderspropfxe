@@ -1,5 +1,5 @@
-import { getAccessToken, getTransactionStatus, statusName } from '../../../../_lib/pesapal.js';
-import { supabaseAdmin } from '../../../../_lib/supabase.js';
+import { getAccessToken, getTransactionStatus, statusName } from './pesapal.js';
+import { supabaseAdmin } from './supabase.js';
 function json(res,code,body){return res.status(code).json(body)}
 export default async function handler(req,res){
   if(req.method!=='GET')return json(res,405,{error:'Method not allowed'});

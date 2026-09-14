@@ -1,5 +1,5 @@
-import { getAccessToken, getTransactionStatus, statusName, appOrigin } from '../_lib/pesapal.js';
-import { supabaseAdmin } from '../_lib/supabase.js';
+import { getAccessToken, getTransactionStatus, statusName, appOrigin } from './pesapal.js';
+import { supabaseAdmin } from './supabase.js';
 export default async function handler(req,res){
   const q=req.query||{}; const tracking=String(q.OrderTrackingId||'').trim(); const reference=String(q.OrderMerchantReference||'').trim();
   const origin=appOrigin(req); const url=new URL('/?payment=pesapal-return',origin);
