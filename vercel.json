@@ -1,3 +1,10 @@
 {
-  "headers": [{"source":"/(.*)","headers":[{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"X-Frame-Options","value":"DENY"},{"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}]}]
+  "rewrites": [
+    {"source":"/v1/payments/pesapal/checkout","destination":"/checkout"},
+    {"source":"/v1/payments/pesapal/status","destination":"/status"},
+    {"source":"/api/pesapal/callback","destination":"/callback"},
+    {"source":"/api/pesapal/ipn","destination":"/ipn"}
+  ],
+  "headers": [{"source":"/(.*)","headers":[{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"X-Frame-Options","value":"DENY"},{"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}]
+  }]
 }

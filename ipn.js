@@ -1,5 +1,5 @@
-import { getAccessToken, getTransactionStatus, statusName } from '../_lib/pesapal.js';
-import { supabaseAdmin } from '../_lib/supabase.js';
+import { getAccessToken, getTransactionStatus, statusName } from './pesapal.js';
+import { supabaseAdmin } from './supabase.js';
 export default async function handler(req,res){
   const q=req.query||{}; const tracking=String(q.OrderTrackingId||'').trim(); const reference=String(q.OrderMerchantReference||'').trim();
   if(!tracking)return res.status(400).json({error:'Missing OrderTrackingId'});

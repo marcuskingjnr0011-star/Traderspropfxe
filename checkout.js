@@ -1,5 +1,5 @@
-import { getAccessToken, registerIpn, submitOrder, appOrigin } from '../../../../_lib/pesapal.js';
-import { supabaseAdmin } from '../../../../_lib/supabase.js';
+import { getAccessToken, registerIpn, submitOrder, appOrigin } from './pesapal.js';
+import { supabaseAdmin } from './supabase.js';
 
 const PLANS={
   challenge:{1:29,2:69,3:169,4:279,5:529},
@@ -40,7 +40,7 @@ export default async function handler(req,res){
     let returnUrl=`${origin}/?payment=pesapal-return`;
     if(suppliedReturn){try{const u=new URL(suppliedReturn); if(u.origin===origin) returnUrl=u.toString()}catch{}}
     const token=await getAccessToken();
-    const ipnId=await registerIpn(token,`${origin}/api/pesapal/ipn`);
+    const ipnId=String(process.env.PESAPAL_IPN_ID||'').trim() || await registerIpn(token,`${origin}/api/pesapal/ipn`);
     const reference=safeRef();
     const order=await submitOrder(token,{amount:expected,currency,description,merchantReference:reference,callbackUrl:returnUrl,notificationId:ipnId,billing:{email,phone:b.phone,firstName:b.firstName,lastName:b.lastName}});
     try{
