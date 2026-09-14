@@ -2383,5 +2383,39 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 });
 </script>
+<style>
+  .tp-auth-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .tp-auth-actions a,.tp-auth-actions button{font:inherit;text-decoration:none;cursor:pointer}
+  .tp-auth-link{color:var(--muted,#aab4ae);font-weight:700;padding:9px 12px}
+  .tp-auth-link:hover{color:#76ff00}
+  .tp-auth-cta{border:1px solid rgba(118,255,0,.55);border-radius:9px;background:#76ff00;color:#071006;padding:10px 14px;font-weight:800}
+  .tp-auth-user{color:#eaf4ee;font-size:13px;font-weight:700}
+  @media(max-width:650px){.tp-auth-actions{gap:2px}.tp-auth-user{display:none}.tp-auth-link{padding:8px 7px}.tp-auth-cta{padding:9px 10px}}
+</style>
+<script>
+(function(){
+  function renderAuthActions(){
+    const container=document.querySelector('.nav .container');
+    if(!container||container.querySelector('.tp-auth-actions'))return;
+    const actions=document.createElement('div');
+    actions.className='tp-auth-actions';
+    const email=typeof current==='function'?current():'';
+    if(email){
+      actions.innerHTML='<span class="tp-auth-user">'+String(email).replace(/[&<>"']/g,'')+'</span><button class="tp-auth-link" type="button">Log out</button>';
+      actions.querySelector('button').addEventListener('click',function(){
+        localStorage.removeItem('tp_current');
+        localStorage.removeItem('tp_auth_token');
+        if(typeof go==='function')go('login');
+      });
+    }else{
+      actions.innerHTML='<a class="tp-auth-link" href="#/login">Log in</a><a class="tp-auth-cta" href="#/signup">Sign up</a>';
+    }
+    container.appendChild(actions);
+  }
+  const observer=new MutationObserver(renderAuthActions);
+  observer.observe(document.getElementById('app'),{childList:true,subtree:true});
+  document.addEventListener('DOMContentLoaded',renderAuthActions);
+})();
+</script>
 </body>
 </html>
