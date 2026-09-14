@@ -7,11 +7,22 @@ function credentials(){
   if(!consumer_key || !consumer_secret) throw new Error('Pesapal is not configured. Set PESAPAL_CONSUMER_KEY and PESAPAL_CONSUMER_SECRET in Vercel.');
   return {consumer_key, consumer_secret};
 }
+export class PesapalError extends Error {
+  constructor(message, status=502, code='PESAPAL_ERROR') {
+    super(message);
+    this.name='PesapalError';
+    this.status=status;
+    this.code=code;
+  }
+}
 function extractError(data, fallback){
   if(data && typeof data==='object'){
     const err=data.error;
     if(err && typeof err==='object'){
-      const parts=[err.code,err.message].filter(Boolean).join(': '); if(parts)return parts;
+      const code=String(err.code||'').trim();
+      const message=String(err.message||'').trim();
+      if(code==='amount_exceeds_default_limit' || message.toLowerCase().includes('amount exceeds default limit')) return 'amount_exceeds_default_limit';
+      const parts=[code,message].filter(Boolean).join(': '); if(parts)return parts;
     }
     if(typeof err==='string' && err)return err;
     if(typeof data.message==='string' && data.message)return data.message;
@@ -49,7 +60,11 @@ export async function submitOrder(token,input){
       billing_address:{email_address:input.billing.email,phone_number:input.billing.phone,first_name:input.billing.firstName,last_name:input.billing.lastName}
     })
   });
-  if(!res.ok || !data?.redirect_url) throw new Error(extractError(data,'Pesapal rejected the order and did not return a checkout URL.'));
+  if(!res.ok || !data?.redirect_url){
+    const message=extractError(data,'Pesapal rejected the order and did not return a checkout URL.');
+    if(message==='amount_exceeds_default_limit') throw new PesapalError('This Pesapal account has a transaction limit below the selected plan amount. Increase the merchant transaction limit in Pesapal or use a payment account configured for this amount.',400,'amount_exceeds_default_limit');
+    throw new PesapalError(message,res.status,'PESAPAL_ORDER_REJECTED');
+  }
   return data;
 }
 export async function getTransactionStatus(token,orderTrackingId){

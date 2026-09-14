@@ -1,4 +1,4 @@
-import { getAccessToken, registerIpn, submitOrder, appOrigin } from './pesapal.js';
+import { getAccessToken, registerIpn, submitOrder, appOrigin, PesapalError } from './pesapal.js';
 import { supabaseAdmin } from './supabase.js';
 
 const PLANS={
@@ -55,5 +55,9 @@ export default async function handler(req,res){
       console.error('[pesapal] order persistence warning',dbErr?.message||dbErr);
     }
     return json(res,200,{checkoutUrl:order.redirect_url,orderTrackingId:order.order_tracking_id,merchantReference:order.merchant_reference||reference,amount:expected,currency});
-  }catch(e){console.error('[pesapal] checkout failed',e?.message||e);return json(res,500,{error:e?.message||'Unable to create secure Pesapal checkout.'})}
+  }catch(e){
+    console.error('[pesapal] checkout failed',e?.message||e);
+    if(e instanceof PesapalError) return json(res,e.status,{error:e.message,code:e.code});
+    return json(res,500,{error:e?.message||'Unable to create secure Pesapal checkout.'});
+  }
 }
