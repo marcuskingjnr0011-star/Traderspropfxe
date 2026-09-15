@@ -1,6 +1,7 @@
 import { getToken } from '@vercel/connect'
 
 const CONNECTOR_UID = 'api.twilio.com/support-center-phone-verification'
+const ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID
 const VERIFY_SERVICE_SID = process.env.TWILIO_VERIFY_SERVICE_SID
 
 function json(res, status, body) {
@@ -9,7 +10,7 @@ function json(res, status, body) {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return json(res, 405, { error: 'Method not allowed' })
-  if (!VERIFY_SERVICE_SID) return json(res, 503, { error: 'Phone verification is not configured.' })
+  if (!ACCOUNT_SID || !VERIFY_SERVICE_SID) return json(res, 503, { error: 'Phone verification is not configured.' })
 
   const { phone, name = '', email = '', country = '' } = req.body || {}
   if (!/^\+[1-9]\d{7,14}$/.test(String(phone || ''))) {
@@ -25,7 +26,7 @@ export default async function handler(req, res) {
     const response = await fetch(`https://verify.twilio.com/v2/Services/${encodeURIComponent(VERIFY_SERVICE_SID)}/Verifications`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Basic ${Buffer.from(`${ACCOUNT_SID}:${token}`).toString('base64')}`,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body,
