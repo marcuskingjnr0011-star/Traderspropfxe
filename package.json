@@ -5,6 +5,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.0"
+    "@supabase/supabase-js": "^2.57.0",
+    "@vercel/connect": "^2.1.0"
   }
 }
