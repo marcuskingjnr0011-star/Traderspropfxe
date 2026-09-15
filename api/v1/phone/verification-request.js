@@ -10,9 +10,10 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return json(res, 405, { error: 'Method not allowed' })
   if (!ACCOUNT_SID || !AUTH_TOKEN || !VERIFY_SERVICE_SID) return json(res, 503, { error: 'Phone verification is not configured.' })
 
-  const { phone, name = '', email = '', country = '' } = req.body || {}
-  if (!/^\+[1-9]\d{7,14}$/.test(String(phone || ''))) {
-    return json(res, 400, { error: 'Enter a valid international phone number.' })
+  const { phone: rawPhone, name = '', email = '', country = '' } = req.body || {}
+  const phone = String(rawPhone || '').trim().replace(/[\u200B-\u200D\uFEFF]/g, '')
+  if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+    return json(res, 400, { error: 'Enter a valid international phone number in E.164 format, for example +254794068728.' })
   }
 
   try {
@@ -33,12 +34,18 @@ export default async function handler(req, res) {
       const details = await response.text()
       console.error('[v0] Twilio verification request failed', response.status, details)
       let twilioMessage = ''
+      let twilioCode = ''
       try {
         const parsed = JSON.parse(details)
         twilioMessage = typeof parsed.message === 'string' ? parsed.message : ''
-      } catch {}
+        twilioCode = parsed.code ? String(parsed.code) : ''
+      } catch {
+        twilioMessage = details.match(/<Message>([^<]+)<\/Message>/i)?.[1] || ''
+        twilioCode = details.match(/<Code>([^<]+)<\/Code>/i)?.[1] || ''
+      }
       return json(res, response.status === 429 ? 429 : 502, {
         error: twilioMessage || 'Twilio could not send the verification code.',
+        ...(twilioCode ? { code: twilioCode } : {}),
       })
     }
 
