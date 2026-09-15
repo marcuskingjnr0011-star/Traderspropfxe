@@ -137,7 +137,9 @@
 
 
 /* Traders Platform branding update: clean Live Markets header without right-side connection promotion */
-.tpLiveMarketPage .dashTop{justify-content:flex-start}.tpLiveMarketPage .dashTop>div:first-child{max-width:760px}
+  .tpLiveMarketPage .dashTop{justify-content:flex-start}.tpLiveMarketPage .dashTop>div:first-child{max-width:760px}
+  /* Keep the Traders Platform clean: connection diagnostics stay out of the customer view. */
+  .tpMarketConnection,.tpWidgetError{display:none!important}
 
 /* Client-to-support connection */
 .helpContactCard{margin-top:24px;background:#fff;border:1px solid #dfe8dc;border-radius:24px;padding:26px;box-shadow:0 12px 32px rgba(22,42,18,.08)}
