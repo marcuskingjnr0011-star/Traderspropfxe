@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    {"source":"/v1/phone/verification-request","destination":"/api/v1/phone/verification-request"},
     {"source":"/api/v1/payments/pesapal/checkout","destination":"/api/pesapal/checkout"},
     {"source":"/v1/payments/pesapal/checkout","destination":"/api/pesapal/checkout"},
     {"source":"/api/v1/payments/pesapal/status/:reference","destination":"/api/pesapal/status?reference=:reference"},
