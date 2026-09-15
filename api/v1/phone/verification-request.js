@@ -35,7 +35,14 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const details = await response.text()
       console.error('[v0] Twilio verification request failed', response.status, details)
-      return json(res, response.status === 429 ? 429 : 502, { error: 'Twilio could not send the verification code.' })
+      let twilioMessage = ''
+      try {
+        const parsed = JSON.parse(details)
+        twilioMessage = typeof parsed.message === 'string' ? parsed.message : ''
+      } catch {}
+      return json(res, response.status === 429 ? 429 : 502, {
+        error: twilioMessage || 'Twilio could not send the verification code.',
+      })
     }
 
     return json(res, 200, { ok: true, phone, name, email, country, status: 'pending' })
