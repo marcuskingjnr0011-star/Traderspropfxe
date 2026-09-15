@@ -46,12 +46,24 @@
 @media(max-width:700px){.tpOverviewMount{min-height:700px}.tpWatchlistStats{gap:6px}.tpWatchlistStats span{font-size:10px;padding:6px 8px}}
 
 /* KYC v2 — reference layout */
-.kycPage{padding:38px 0 28px;background:linear-gradient(180deg,#fff 0%,#fbfdfb 55%,#fff 100%);min-height:calc(100vh - 140px)}
-.kycContainer{width:min(760px,92%);margin:0 auto}
-.kycTitleRow{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
-.kycShield{width:48px;height:48px;border-radius:14px;background:#f0faed;color:#42bb27;display:grid;place-items:center;font-size:25px;flex:0 0 48px;border:1px solid #e3f1df}
-.kycTitleRow h1{font-size:34px;letter-spacing:-1.2px;margin:0 0 8px}
-.kycTitleRow p{margin:0;color:#68726c;font-size:15px;line-height:1.55}
+ .kycPage{position:relative;overflow:hidden;padding:42px 0 56px;background:radial-gradient(circle at 8% 4%,rgba(116,235,48,.18),transparent 27%),radial-gradient(circle at 95% 18%,rgba(215,255,190,.7),transparent 25%),linear-gradient(180deg,#f7fff4 0%,#fbfdfb 52%,#f4fbf1 100%);min-height:calc(100vh - 140px)}
+ .kycPage:before{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(59,139,44,.12) 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.5),transparent 50%)}
+ .kycContainer{position:relative;width:min(820px,92%);margin:0 auto}
+ .kycTitleRow{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px;padding:8px 4px}
+ .kycShield{width:58px;height:58px;border-radius:19px;background:linear-gradient(145deg,#d9ffc8,#efffe9);color:#2da52c;display:grid;place-items:center;font-size:28px;flex:0 0 58px;border:1px solid #c7edb9;box-shadow:0 10px 24px rgba(65,178,42,.16)}
+ .kycTitleRow h1{font-size:38px;letter-spacing:-1.6px;margin:0 0 7px;color:#17221a}
+ .kycTitleRow p{margin:0;color:#607064;font-size:15px;line-height:1.6;max-width:590px}
+ .kycStatus{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #cfe8c8;background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(238,252,232,.9));border-radius:22px;padding:20px 22px;margin:22px 0;box-shadow:0 18px 42px rgba(57,119,45,.1)}
+ .kycStatusCol{display:flex;align-items:flex-start;gap:13px;padding-right:22px}
+ .kycStatusCol+ .kycStatusCol{border-left:1px solid #d7ead1;padding-left:24px}
+ .kycIconCircle{width:48px;height:48px;border-radius:16px;background:#ddf7d5;color:#3cae33;display:grid;place-items:center;font-size:22px;flex:0 0 48px;box-shadow:inset 0 0 0 1px rgba(70,177,49,.08)}
+ .kycCard{border:1px solid rgba(205,225,201,.95);border-radius:22px;background:rgba(255,255,255,.94);padding:25px 26px;margin-top:16px;box-shadow:0 16px 40px rgba(31,72,26,.08);backdrop-filter:blur(8px)}
+ .kycCardHead{display:flex;align-items:center;gap:11px;margin-bottom:20px}
+ .kycStep{width:29px;height:29px;border-radius:10px;background:linear-gradient(145deg,#58d947,#26a82e);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900;box-shadow:0 7px 14px rgba(42,174,43,.22)}
+ .kycCardHead h2{font-size:16px;margin:0;color:#1d2b20}
+ .kycInput,.kycSelect{width:100%;height:52px;padding:0 15px;border:1px solid #d8e4d5;border-radius:13px;background:#fcfffb;color:#27322b;font-size:14px;outline:none;transition:.18s}
+ .kycInput:focus,.kycSelect:focus{border-color:#54c83d;box-shadow:0 0 0 4px rgba(82,212,0,.13);background:#fff}
+ .kycSupportBtn{width:100%;margin-top:9px;min-height:52px;border-radius:13px!important;font-size:14px}.kycPhoneStatus{font-size:12px;margin-top:10px;color:#5e6b61;line-height:1.5;padding:11px 13px;border:1px solid #dfe8dc;border-radius:12px;background:#fbfef9}
 .kycStatus{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #dfeadd;background:#f6fcf3;border-radius:14px;padding:18px 20px;margin:20px 0}
 .kycStatusCol{display:flex;align-items:flex-start;gap:12px;padding-right:18px}
 .kycStatusCol+ .kycStatusCol{border-left:1px solid #d9e7d5;padding-left:22px}
@@ -78,9 +90,13 @@
 .kycPrefix{height:48px;border:1px solid #dfe4df;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;gap:5px;font-size:13px;color:#4d5650}
 .kycDocIntro{font-size:12px;color:#6b746e;margin:-7px 0 14px}
 .kycDocTypes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.kycDocType{position:relative;border:1px solid #e0e5df;border-radius:10px;background:#fff;min-height:116px;padding:14px 8px;text-align:center;cursor:pointer;transition:.15s}
-.kycDocType:hover{border-color:#7ed96c}
-.kycDocType.active{border-color:#62cf50;box-shadow:inset 0 0 0 1px #62cf50;background:#fbfffa}
+ .kycDocType{position:relative;border:1px solid #e0e5df;border-radius:16px;background:linear-gradient(180deg,#fff,#fbfef9);min-height:122px;padding:15px 8px;text-align:center;cursor:pointer;transition:.2s;box-shadow:0 6px 14px rgba(29,73,25,.035)}
+ .kycDocType:hover{border-color:#7ed96c;transform:translateY(-2px);box-shadow:0 10px 20px rgba(46,137,36,.1)}
+ .kycDocType.active{border-color:#62cf50;box-shadow:inset 0 0 0 1px #62cf50,0 10px 20px rgba(46,174,43,.12);background:linear-gradient(180deg,#fbfff9,#effbe9)}
+ .kycUpload{margin-top:18px;border:1px dashed #9fd791;border-radius:16px;background:linear-gradient(135deg,#fbfffa,#f2fbea);min-height:92px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;padding:15px;transition:.2s}
+ .kycUpload:hover{border-color:#55c949;background:#edfae8;transform:translateY(-1px)}
+ .kycTip{display:flex;gap:10px;align-items:flex-start;margin-top:18px;border:1px solid #d7ebcf;background:linear-gradient(135deg,#f8fff5,#eff9eb);border-radius:14px;padding:13px 14px;color:#536257;font-size:12px;line-height:1.5}
+ .kycSubmit{margin-top:18px;border-radius:14px!important;min-height:54px;font-size:15px;box-shadow:0 12px 24px rgba(82,212,0,.2)}
 .kycDocIcon{height:45px;display:grid;place-items:center;font-size:31px;color:#656d76}
 .kycDocType.active .kycDocIcon{color:#3cbe37}
 .kycDocName{font-size:13px;font-weight:700}
@@ -100,9 +116,11 @@
 .kycSecure{text-align:center;font-size:11px;color:#858d87;margin:10px 0 0}
 .kycMsg{text-align:center;font-size:12px;margin:10px 0 0;color:#4a6750}
 @media(max-width:600px){
- .kycPage{padding:30px 0 24px}
- .kycContainer{width:90%}
- .kycTitleRow h1{font-size:30px}
+  .kycPage{padding:26px 0 38px}
+ .kycContainer{width:92%}
+ .kycTitleRow{gap:12px;padding:4px 0}
+ .kycShield{width:50px;height:50px;flex-basis:50px;border-radius:16px;font-size:24px}
+ .kycTitleRow h1{font-size:30px;letter-spacing:-1px}
  .kycStatus{grid-template-columns:1fr;padding:14px}
  .kycStatusCol{padding:4px 0 14px}
  .kycStatusCol+.kycStatusCol{border-left:0;border-top:1px solid #d9e7d5;padding:14px 0 2px}
@@ -2381,6 +2399,11 @@ body{color:#eef1f1;background:#0e1312}
   .certShowcaseBottom{width:min(320px,90vw)!important;padding:10px!important;border-radius:22px!important}
   .certShowcaseBottom .certViewport{height:380px!important}
 }
+/* Final KYC polish overrides */
+.kycPage{position:relative;overflow:hidden;padding:42px 0 56px;background:radial-gradient(circle at 8% 4%,rgba(116,235,48,.18),transparent 27%),radial-gradient(circle at 95% 18%,rgba(215,255,190,.7),transparent 25%),linear-gradient(180deg,#f7fff4 0%,#fbfdfb 52%,#f4fbf1 100%)}
+.kycContainer{position:relative;width:min(820px,92%);margin:0 auto}
+.kycTitleRow{padding:8px 4px;margin-bottom:22px}.kycShield{width:58px;height:58px;flex-basis:58px;border-radius:19px;background:linear-gradient(145deg,#d9ffc8,#efffe9);box-shadow:0 10px 24px rgba(65,178,42,.16)}.kycTitleRow h1{font-size:38px;color:#17221a}.kycStatus{border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(238,252,232,.9));box-shadow:0 18px 42px rgba(57,119,45,.1)}.kycCard{border-radius:22px;background:rgba(255,255,255,.94);padding:25px 26px;margin-top:16px;box-shadow:0 16px 40px rgba(31,72,26,.08)}.kycStep{width:29px;height:29px;border-radius:10px;background:linear-gradient(145deg,#58d947,#26a82e);box-shadow:0 7px 14px rgba(42,174,43,.22)}.kycInput,.kycSelect{height:52px;border-radius:13px;background:#fcfffb;transition:.18s}.kycInput:focus,.kycSelect:focus{background:#fff}.kycSupportBtn{min-height:52px;border-radius:13px!important}.kycDocType{border-radius:16px;background:linear-gradient(180deg,#fff,#fbfef9);min-height:122px;box-shadow:0 6px 14px rgba(29,73,25,.035);transition:.2s}.kycDocType:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(46,137,36,.1)}.kycUpload{border-radius:16px;background:linear-gradient(135deg,#fbfffa,#f2fbea);min-height:92px;transition:.2s}.kycUpload:hover{background:#edfae8;transform:translateY(-1px)}.kycTip{border-radius:14px;background:linear-gradient(135deg,#f8fff5,#eff9eb)}.kycSubmit{min-height:54px;border-radius:14px!important;box-shadow:0 12px 24px rgba(82,212,0,.2)}
+@media(max-width:600px){.kycPage{padding:26px 0 38px}.kycContainer{width:92%}.kycTitleRow{gap:12px;padding:4px 0}.kycShield{width:50px;height:50px;flex-basis:50px;border-radius:16px}.kycTitleRow h1{font-size:30px;letter-spacing:-1px}.kycCard{padding:18px 16px}.kycStatus{border-radius:18px}}
 </style>
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
