@@ -1921,7 +1921,7 @@ async function kyc(){
                 <input class="kycInput" id="kycPhone" type="tel" value="${esc(u.kycPhone||u.phone||'')}" placeholder="+254 712 345 678" autocomplete="tel" inputmode="tel" oninput="markKycPhoneChanged()" onblur="maybeAutoSendKycOtp()" required>
               </div>
               <button class="btn primary kycSupportBtn" type="button" id="kycSendSupport" onclick="requestKycPhoneVerification()">Send number to Support Center</button>
-              <div id="kycPhoneStatus" class="kycPhoneStatus ${u.kycPhoneVerified?'ok':''}">${u.kycPhoneVerified?'✓ Phone number verified successfully.':u.kycPhoneVerificationStatus==='Pending support verification'?'✓ Your phone number is with the Support Center for verification.':'Your phone number will be securely sent to the Support Center for manual verification. No OTP code is required.'}</div>
+              <div id="kycPhoneStatus" class="kycPhoneStatus ${u.kycPhoneVerified?'ok':''}">${u.kycPhoneVerified?'✓ Phone number verified successfully.':u.kycPhoneVerificationStatus==='Pending support verification'?'✓ Your phone number is with the Support Center for verification.':'We&apos;ll send a verification code by SMS. Enter it when prompted to verify your phone number automatically.'}</div>
             </div>
             <div class="kycField"><label for="kycEmail">Email Address</label><input class="kycInput" id="kycEmail" type="email" value="${esc(u.email||'')}" placeholder="yourmail@example.com" required></div>
             <div class="kycField full"><label for="kycAddress">Residential Address</label><input class="kycInput" id="kycAddress" value="${esc(u.kycAddress||u.location||'')}" placeholder="e.g. 123 Example Street, Nairobi, Kenya" required></div>
