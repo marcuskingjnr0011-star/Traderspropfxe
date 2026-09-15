@@ -673,7 +673,10 @@ function selectedPhoneDial(){
 function getKycE164Phone(){
   let raw=String($('#kycPhone')?.value||'').trim().replace(/[^0-9+]/g,'');
   const dial=selectedPhoneDial();
-  if(raw.startsWith('+')) return '+'+raw.slice(1).replace(/\\D/g,'');
+  if(raw.startsWith('+')){
+    const normalized='+'+raw.slice(1).replace(/\\D/g,'');
+    return normalized.startsWith(dial) ? normalized : normalized;
+  }
   raw=raw.replace(/^0+/,'');
   return dial+raw;
 }
@@ -711,7 +714,7 @@ async function requestKycPhoneVerification(){
     let st=state(), nu={...u,phone:r.phone||phone,kycPhone:r.phone||phone,kycPhoneVerified:false,kycPhoneVerificationStatus:'Pending support verification',kycPhoneCountry:$('#kycPhoneCountry').value};
     st.users=st.users.map(x=>x.email===u.email?nu:x); save(st);
     msg.textContent='✓ Phone number sent to the Support Center for verification. You will be notified once it is verified.'; msg.className='kycPhoneStatus ok';
-  }catch(e){msg.textContent=e.message||'Unable to send your phone number to the Support Center.';msg.className='kycPhoneStatus err'}
+  }catch(e){msg.textContent=(e.code?`Twilio error ${e.code}: `:'')+(e.message||'Unable to send your phone number to the Support Center.');msg.className='kycPhoneStatus err'}
   finally{if(btn){btn.disabled=false;btn.textContent='Send number to Support Center'}}
 }
 function markKycPhoneChanged(){
@@ -2069,7 +2072,7 @@ function competition(month='september'){
   const surnameRoots=['Aster','Briar','Cinder','Darrow','Elden','Farrow','Galen','Harlow','Indigo','Jasper','Kestrel','Linden','Marrow','Noble','Orion','Parker','Quillon','Rowan','Sterling','Thorne','Umber','Varden','Wilder','Xander','Yarrow','Zephyr','Calder','Denham'];
   const surnameEndings=['ford','mere','brook','vale','ridge','field','croft','well','stone','hart','wood','lane','crest','more','shaw','wick','bourne','cliff','grove','ford'];
   const last=Array.from({length:560},(_,i)=>surnameRoots[i%surnameRoots.length]+surnameEndings[Math.floor(i/surnameRoots.length)]);
-  const countries=[['🇧🇷','Brazil'],['🇰🇷','South Korea'],['🇪🇬','Egypt'],['🇺🇸','United States'],['🇰🇪','Kenya'],['🇯🇵','Japan'],['🇿🇦','South Africa'],['🇮🇳','India'],['🇬🇭','Ghana'],['🇲🇦','Morocco'],['🇩🇪','Germany'],['🇧🇬','Bulgaria'],['🇲🇽','Mexico'],['🇬🇧','United Kingdom'],['🇨🇦','Canada'],['🇳🇬','Nigeria'],['🇦🇺','Australia'],['🇨🇳','China'],['🇦🇷','Argentina'],['🇫🇷','France'],['🇹🇷','Turkey'],['🇵🇭','Philippines'],['🇹🇿','Tanzania'],['🇪🇸','Spain'],['🇦🇪','United Arab Emirates'],['🇵🇱','Poland'],['🇮🇹','Italy'],['🇸🇪','Sweden'],['🇵🇰','Pakistan'],['🇨🇴','Colombia'],['🇵🇹','Portugal'],['🇻🇳','Vietnam'],['🇳🇱','Netherlands'],['🇸🇦','Saudi Arabia'],['🇨🇱','Chile'],['🇪🇹','Ethiopia'],['🇮🇪','Ireland'],['🇮🇩','Indonesia'],['🇭🇷','Croatia'],['🇷🇼','Rwanda']];
+  const countries=[['🇧🇷','Brazil'],['🇰🇷','South Korea'],['🇪🇬','Egypt'],['🇺🇸','United States'],['🇰🇪','Kenya'],['🇯🇵','Japan'],['🇿🇦','South Africa'],['🇮🇳','India'],['🇬🇭','Ghana'],['🇲🇦','Morocco'],['🇩🇪','Germany'],['🇧🇬','Bulgaria'],['🇲🇽','Mexico'],['🇬🇧','United Kingdom'],['🇨🇦','Canada'],['🇳🇬','Nigeria'],['🇦🇺','Australia'],['🇨🇳','China'],['🇦🇷','Argentina'],['🇫🇷','France'],['🇹🇷','Turkey'],['🇵🇭','Philippines'],['🇹🇿','Tanzania'],['🇪🇸','Spain'],['🇦🇪','United Arab Emirates'],['🇵🇱','Poland'],['🇮���','Italy'],['🇸🇪','Sweden'],['🇵🇰','Pakistan'],['🇨🇴','Colombia'],['🇵🇹','Portugal'],['🇻🇳','Vietnam'],['🇳🇱','Netherlands'],['🇸🇦','Saudi Arabia'],['🇨🇱','Chile'],['🇪🇹','Ethiopia'],['🇮🇪','Ireland'],['🇮🇩','Indonesia'],['🇭🇷','Croatia'],['🇷🇼','Rwanda']];
   const traders=Array.from({length:560},(_,i)=>{
     const c=countries[i%countries.length], rank=i+1;
     const name=`${first[i%first.length]} ${last[i]}`;
