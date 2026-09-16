@@ -57,4 +57,6 @@ alter table public.payment_orders add column if not exists provider_confirmation
 
 -- Production authentication linkage: users are managed by Supabase Auth.
 alter table public.profiles add column if not exists auth_user_id uuid;
-create unique index if not exists profiles_auth_user_id_idx on public.profiles(auth_user_id) where auth_user_id is not null;
+ -- Full unique constraint (NOT a partial index) so signup's upsert onConflict:'auth_user_id' works. Postgres ON CONFLICT cannot target a partial index.
+ alter table public.profiles drop constraint if exists profiles_auth_user_id_key;
+ alter table public.profiles add constraint profiles_auth_user_id_key unique (auth_user_id);
