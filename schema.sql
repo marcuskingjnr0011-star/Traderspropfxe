@@ -54,3 +54,7 @@ create index if not exists payment_orders_provider_ref_idx on public.payment_ord
 -- Pesapal reconciliation fields used by the merged production checkout.
 alter table public.payment_orders add column if not exists provider_status text;
 alter table public.payment_orders add column if not exists provider_confirmation_code text;
+
+-- Production authentication linkage: users are managed by Supabase Auth.
+alter table public.profiles add column if not exists auth_user_id uuid;
+create unique index if not exists profiles_auth_user_id_idx on public.profiles(auth_user_id) where auth_user_id is not null;
